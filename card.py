@@ -20,3 +20,6 @@ class Card:
        self._balance = temp_balance
        return True
 
+   def refund(self, amount):
+       self._balance -= amount
+       return True
