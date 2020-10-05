@@ -12,8 +12,8 @@ def get_single_card_from_customer(processor, name):
     return customer.cards[0]
 
 def test_processor_can_create_customer_with_card():
-    input_str_1 = "Add Tom $1000"
-    input_str_2 = "Add Mary $5"
+    input_str_1 = "Add Tom 4111111111111111 $1000"
+    input_str_2 = "Add Mary 5454545454545454 $5"
 
     processor = Processor()
 
@@ -35,7 +35,7 @@ def test_processor_can_create_customer_with_card():
     assert card_mary.spending_limit == 5
 
 def test_processor_can_charge_customer_with_existing_card():
-    input_str_1 = "Add Tom $6"
+    input_str_1 = "Add Tom 4111111111111111 $6"
     input_str_2 = "Charge Tom $5"
     input_str_3 = "Charge Tom $1"
 
@@ -52,7 +52,7 @@ def test_processor_can_charge_customer_with_existing_card():
     assert card_tom.balance == 6
 
 def test_processor_can_refund_customer_with_existing_card():
-    input_str_1 = "Add Tom $6"
+    input_str_1 = "Add Tom 4111111111111111 $6"
     input_str_2 = "Refund Tom $99"
 
     processor = Processor()
@@ -65,9 +65,9 @@ def test_processor_can_refund_customer_with_existing_card():
 
 def test_end_to_end_multiple_customer_input():
     input_strs = [
-            "Add Tom $1000",
-            "Add Lisa $3000",
-            "Add Quincy $2000",
+            "Add Tom 4111111111111111 $1000",
+            "Add Lisa 5454545454545454 $3000",
+            "Add Quincy 1234567890123456 $2000",
             "Charge Tom $500",
             "Charge Tom $800",
             "Charge Lisa $7",

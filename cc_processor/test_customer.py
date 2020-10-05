@@ -18,10 +18,11 @@ def test_customer_default_create():
 
 def test_customer_with_card():
     customer = Customer(name="Kirby")
-    add_card = customer.add_card(500)
+    add_card = customer.add_card("7969024409737685", 500)
     assert add_card == True
     assert len(customer.cards) == 1
     assert customer.cards[0].spending_limit == 500
+    assert customer.cards[0].number == "7969024409737685"
 
 def test_customer_create_with_card(card):
     customer = Customer(name="Ness", cards=[card])
