@@ -28,3 +28,22 @@ class Card:
    def refund(self, amount):
        self._balance -= amount
        return True
+
+   @classmethod
+   def _luhn_valid(cls, number):
+       check_number = 0
+       for i in range(len(number)-2, -1, -2):
+           if int(number[i]) * 2 > 9:
+               check_number += (int(number[i]) * 2) - 9
+           else:
+               check_number += int(number[i]) * 2
+       for i in range(len(number)-1, -1, -2):
+           check_number += int(number[i])
+       if check_number%10 == 0:
+           return True
+       else:
+           return False
+
+   @property
+   def valid(self):
+       return Card._luhn_valid(self.number)

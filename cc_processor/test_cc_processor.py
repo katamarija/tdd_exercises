@@ -85,5 +85,7 @@ def test_end_to_end_multiple_customer_input():
     card_quincy = get_single_card_from_customer(processor, "Quincy")
 
     assert card_tom.balance == 500
+    assert card_tom.valid == True
     assert card_lisa.balance == -93
-    assert card_quincy.balance == -200
+    assert card_tom.valid == True
+    assert card_quincy.valid == False
