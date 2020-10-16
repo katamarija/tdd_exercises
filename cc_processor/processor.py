@@ -30,3 +30,18 @@ class Processor:
         else:
             print("Invalid")
             pass
+
+    def print_current_balances(self):
+        for customer in sorted(self.customers, key=lambda customer: customer.name):
+            if customer.cards[0].valid == True:
+                print(f"{customer.name}: ${customer.cards[0].balance}")
+            else:
+                print(f"{customer.name}: error")
+
+    # def _key(customer):
+    #     return customer.name
+    #
+    # customerA < customerB
+    #
+    # key(customerA) < key(customerB)
+    # customer.name < customer.name

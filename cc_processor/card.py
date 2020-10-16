@@ -39,7 +39,7 @@ class Card:
                check_number += int(number[i]) * 2
        for i in range(len(number)-1, -1, -2):
            check_number += int(number[i])
-       if check_number%10 == 0:
+       if check_number % 10 == 0:
            return True
        else:
            return False

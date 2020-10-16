@@ -63,7 +63,7 @@ def test_processor_can_refund_customer_with_existing_card():
 
     assert card_tom.balance == -99
 
-def test_end_to_end_multiple_customer_input():
+def test_end_to_end_multiple_customer_input(capsys):
     input_strs = [
             "Add Tom 4111111111111111 $1000",
             "Add Lisa 5454545454545454 $3000",
@@ -79,13 +79,16 @@ def test_end_to_end_multiple_customer_input():
     for s in input_strs:
         processor.process(s)
 
-
     card_tom = get_single_card_from_customer(processor, "Tom")
     card_lisa = get_single_card_from_customer(processor, "Lisa")
     card_quincy = get_single_card_from_customer(processor, "Quincy")
+
+    processor.print_current_balances()
+    captured = capsys.readouterr()
 
     assert card_tom.balance == 500
     assert card_tom.valid == True
     assert card_lisa.balance == -93
     assert card_tom.valid == True
     assert card_quincy.valid == False
+    assert captured.out == "Lisa: $-93\nQuincy: error\nTom: $500\n"
