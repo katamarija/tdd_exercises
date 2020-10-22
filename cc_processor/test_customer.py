@@ -5,11 +5,11 @@ from processor import Processor
 
 @pytest.fixture
 def card():
-    return Card(number="7969024409737685", spending_limit=250)
+    return Card(card_type="TestType", number="7969024409737685", spending_limit=250)
 
-def get_single_card_from_customer(processor, name):
-    customer = next(filter(lambda c: c.name == name, processor.customers))
-    return customer.cards[0]
+@pytest.fixture
+def card_2():
+    return Card(card_type="TestType", number="88778501", spending_limit=500)
 
 def test_customer_default_create():
     customer = Customer(name="Crow T. Robot")
@@ -18,8 +18,10 @@ def test_customer_default_create():
 
 def test_customer_with_card():
     customer = Customer(name="Kirby")
-    add_card = customer.add_card("7969024409737685", 500)
+    add_card = customer.add_card("TestType", "7969024409737685", 500)
+
     assert add_card == True
+    assert customer.cards[0].card_type == "TestType"
     assert len(customer.cards) == 1
     assert customer.cards[0].spending_limit == 500
     assert customer.cards[0].number == "7969024409737685"
@@ -28,6 +30,20 @@ def test_customer_create_with_card(card):
     customer = Customer(name="Ness", cards=[card])
     # we're passing the test fixture card, which has a spending limit 250
 
+    assert customer.cards[0].number == "7969024409737685"
+    assert customer.cards[0].card_type == "TestType"
     assert len(customer.cards) == 1
     assert customer.cards[0].spending_limit == 250
 
+def test_customer_add_additional_card(card_2):
+    customer = Customer(name="Akechi", cards = [card, card_2])
+
+    assert customer.cards[0].number == "7969024409737685"
+    assert customer.cards[0].card_type == "TestType"
+    assert customer.cards[0].spending_limit == 250
+
+    assert customer.cards[1].number == "88778501"
+    assert customer.cards[1].card_type == "TestType"
+    assert customer.cards[1].spending_limit == 500
+
+    assert len(customer.cards) == 2

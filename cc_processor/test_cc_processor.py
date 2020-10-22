@@ -12,8 +12,9 @@ def get_single_card_from_customer(processor, name):
     return customer.cards[0]
 
 def test_processor_can_create_customer_with_card():
-    input_str_1 = "Add Tom 4111111111111111 $1000"
-    input_str_2 = "Add Mary 5454545454545454 $5"
+    input_str_1 = "Add Tom Platinum 4111111111111111 $1000"
+    input_str_1 = "Add Tom Silver 4111111111111111 $1000"
+    input_str_2 = "Add Mary Gold 5454545454545454 $5"
 
     processor = Processor()
 
@@ -25,14 +26,21 @@ def test_processor_can_create_customer_with_card():
     customer_mary = next(filter(lambda c: c.name == "Mary", processor.customers))
 
     assert customer_tom.name == "Tom"
-    assert len(customer_tom.cards) == 1
-    card_tom = customer_tom.cards[0]
-    assert card_tom.spending_limit == 1000
+    assert len(customer_tom.cards) == 2
+
+    card_tom_platinum = customer_tom.cards[0]
+    assert card_tom_platinum.spending_limit == 1000
+    assert card_tom_platinum.card_type == "Platinum"
+
+    card_tom_silver = customer_tom.cards[1]
+    assert card_tom_silver.spending_limit == 1000
+    assert card_tom_silver.card_type == "Silver"
 
     assert customer_mary.name == "Mary"
     assert len(customer_mary.cards) == 1
     card_mary = customer_mary.cards[0]
     assert card_mary.spending_limit == 5
+    assert card_tom.card_type == "Gold"
 
 def test_processor_can_charge_customer_with_existing_card():
     input_str_1 = "Add Tom 4111111111111111 $6"

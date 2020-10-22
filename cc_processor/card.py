@@ -1,5 +1,6 @@
 class Card:
-   def __init__(self, number, spending_limit, balance=0):
+   def __init__(self, card_type, number, spending_limit, balance=0):
+       self._card_type = card_type
        self._number = number
        self._balance = balance
        self._spending_limit = spending_limit
@@ -7,6 +8,10 @@ class Card:
    @property
    def balance(self):
        return self._balance
+
+   @property
+   def card_type(self):
+       return self._card_type
 
    @property
    def number(self):

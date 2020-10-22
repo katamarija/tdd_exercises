@@ -5,17 +5,20 @@ from processor import Processor
 
 @pytest.fixture
 def card():
-    return Card(number="7969024409737685", spending_limit=250)
+    return Card(card_type="TestType", number="7969024409737685", spending_limit=250)
 
-def get_single_card_from_customer(processor, name):
-    customer = next(filter(lambda c: c.name == name, processor.customers))
-    return customer.cards[0]
+# def get_single_card_from_customer(processor, name):
+#     customer = next(filter(lambda c: c.name == name, processor.customers))
+#     return customer.cards[0]
 
 def test_initial_balance(card):
     assert card.balance == 0
 
 def test_spending_limit(card):
     assert card.spending_limit == 250
+
+def test_card_type(card):
+    assert card.card_type == "TestType"
 
 def test_charge_card(card):
     card_charge = card.charge(16)
