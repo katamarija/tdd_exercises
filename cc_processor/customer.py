@@ -10,3 +10,9 @@ class Customer:
         new_card = Card(card_type, card_number, spending_limit)
         self.cards.append(new_card)
         return True
+
+    # want to add more optional args
+    def get_card(self, card_type):
+        for card in self.cards:
+            if card.card_type == card_type:
+                return card

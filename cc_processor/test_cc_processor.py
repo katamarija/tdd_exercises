@@ -13,13 +13,14 @@ def get_single_card_from_customer(processor, name):
 
 def test_processor_can_create_customer_with_card():
     input_str_1 = "Add Tom Platinum 4111111111111111 $1000"
-    input_str_1 = "Add Tom Silver 4111111111111111 $1000"
-    input_str_2 = "Add Mary Gold 5454545454545454 $5"
+    input_str_2 = "Add Tom Silver 4111111111111111 $1000"
+    input_str_3 = "Add Mary Gold 5454545454545454 $5"
 
     processor = Processor()
 
     processor.process(input_str_1)
     processor.process(input_str_2)
+    processor.process(input_str_3)
 
     assert len(processor.customers) == 2
     customer_tom = next(filter(lambda c: c.name == "Tom", processor.customers))
@@ -40,24 +41,25 @@ def test_processor_can_create_customer_with_card():
     assert len(customer_mary.cards) == 1
     card_mary = customer_mary.cards[0]
     assert card_mary.spending_limit == 5
-    assert card_tom.card_type == "Gold"
+    assert card_mary.card_type == "Gold"
 
 def test_processor_can_charge_customer_with_existing_card():
-    input_str_1 = "Add Tom 4111111111111111 $6"
-    input_str_2 = "Charge Tom $5"
-    input_str_3 = "Charge Tom $1"
+    input_str_1 = "Add Tom Platinum 4111111111111111 $6"
+    input_str_2 = "Add Tom Silver 4111111111111111 $6"
+    input_str_3 = "Charge Tom Platinum $5"
+    input_str_4 = "Charge Tom Silver $1"
 
     processor = Processor()
     processor.process(input_str_1)
     processor.process(input_str_2)
-
-    card_tom = get_single_card_from_customer(processor, "Tom")
-
-    assert card_tom.balance == 5
-
     processor.process(input_str_3)
+    processor.process(input_str_4)
 
-    assert card_tom.balance == 6
+    tom_plat = processor.get_customer("Tom").get_card("Platinum")
+    tom_silver = processor.get_customer("Tom").get_card("Silver")
+
+    assert tom_plat.balance == 5
+    assert tom_silver.balance == 1
 
 def test_processor_can_refund_customer_with_existing_card():
     input_str_1 = "Add Tom 4111111111111111 $6"

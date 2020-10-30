@@ -9,14 +9,18 @@ class Processor:
         customer_name = input_str.split()[1]
 
         if command == "Add":
-            card_number = input_str.split()[2]
-            amount = int(input_str.split()[3].strip('$'))
-            customer = Customer(name=customer_name)
-
-            self.customers.append(customer)
-
+            card_type = input_str.split()[2]
+            card_number = input_str.split()[3]
+            amount = int(input_str.split()[4].strip('$'))
             spending_limit = amount
-            customer.add_card(card_number, spending_limit)
+            customer = self.get_customer(customer_name)
+
+            if customer == None:
+                customer = Customer(name=customer_name)
+                self.customers.append(customer)
+                customer.add_card(card_type, card_number, spending_limit)
+            else:
+                customer.add_card(card_type, card_number, spending_limit)
         elif command == "Charge":
             amount = int(input_str.split()[2].strip('$'))
             for customer in self.customers:
@@ -45,3 +49,8 @@ class Processor:
     #
     # key(customerA) < key(customerB)
     # customer.name < customer.name
+
+    def get_customer(self, customer_name):
+        for customer in self.customers:
+            if customer.name == customer_name:
+                return customer
