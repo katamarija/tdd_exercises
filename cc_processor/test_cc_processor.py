@@ -62,43 +62,51 @@ def test_processor_can_charge_customer_with_existing_card():
     assert tom_silver.balance == 1
 
 def test_processor_can_refund_customer_with_existing_card():
-    input_str_1 = "Add Tom 4111111111111111 $6"
-    input_str_2 = "Refund Tom $99"
+    input_str_1 = "Add Tom Silver 4111111111111111 $6"
+    input_str_2 = "Refund Tom Silver $99"
 
     processor = Processor()
     processor.process(input_str_1)
     processor.process(input_str_2)
 
-    card_tom = get_single_card_from_customer(processor, "Tom")
+    tom_silver = processor.get_customer("Tom").get_card("Silver")
 
-    assert card_tom.balance == -99
+    assert tom_silver.balance == -99
 
 def test_end_to_end_multiple_customer_input(capsys):
     input_strs = [
-            "Add Tom 4111111111111111 $1000",
-            "Add Lisa 5454545454545454 $3000",
-            "Add Quincy 1234567890123456 $2000",
-            "Charge Tom $500",
-            "Charge Tom $800",
-            "Charge Lisa $7",
-            "Refund Lisa $100",
-            "Refund Quincy $200",
-            ]
+        "Add Tom Home 4111111111111111 $1000",
+        "Add Tom Work 4012000033330026 $500",
+        "Add Lisa Work 5454545454545454 $3000",
+        "Add Lisa Gold 4111111111111112 $1000",
+        "Add Lisa Platinum 378282246310005 $2000",
+        "Charge Tom Home $500",
+        "Charge Tom Work $800",
+        "Charge Lisa Work $7",
+        "Refund Lisa Platinum $100"
+]
 
     processor = Processor()
     for s in input_strs:
         processor.process(s)
 
-    card_tom = get_single_card_from_customer(processor, "Tom")
-    card_lisa = get_single_card_from_customer(processor, "Lisa")
-    card_quincy = get_single_card_from_customer(processor, "Quincy")
+    tom_home = processor.get_customer("Tom").get_card("Home")
+    tom_work = processor.get_customer("Tom").get_card("Work")
+    lisa_work = processor.get_customer("Lisa").get_card("Work")
+    lisa_gold = processor.get_customer("Lisa").get_card("Gold")
+    lisa_plat = processor.get_customer("Lisa").get_card("Platinum")
 
     processor.print_current_balances()
     captured = capsys.readouterr()
 
-    assert card_tom.balance == 500
-    assert card_tom.valid == True
-    assert card_lisa.balance == -93
-    assert card_tom.valid == True
-    assert card_quincy.valid == False
-    assert captured.out == "Lisa: $-93\nQuincy: error\nTom: $500\n"
+    assert tom_home.balance == 500
+    assert tom_work.balance == 0
+    assert tom_home.valid == True
+    assert tom_work.valid == True
+    assert lisa_work.balance == 7
+    assert lisa_work.valid == True
+    assert lisa_gold.valid == False
+    assert lisa_plat.balance == -100
+    assert lisa_plat.valid == True
+
+    assert captured.out == "Lisa: (Gold) error, (Platinum) $-100, (Work) $7, \nTom: (Home) $500, (Work) $0, \n"
