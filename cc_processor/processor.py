@@ -1,8 +1,5 @@
 from customer import Customer
 
-def get_customer_name(customer):
-    return customer.name
-
 class Processor:
     def __init__(self):
         self.customers = {}
@@ -17,13 +14,10 @@ class Processor:
             amount = int(input_str.split()[4].strip('$'))
             spending_limit = amount
             customer = self.get_customer(customer_name)
-
             if customer == None:
                 customer = Customer(name=customer_name)
                 self.customers[customer_name] = customer
-                customer.add_card(card_type, card_number, spending_limit)
-            else:
-                customer.add_card(card_type, card_number, spending_limit)
+            customer.add_card(card_type, card_number, spending_limit)
         elif command == "Charge":
             amount = int(input_str.split()[3].strip('$'))
             customer = self.get_customer(customer_name)

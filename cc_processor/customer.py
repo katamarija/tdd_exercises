@@ -11,6 +11,5 @@ class Customer:
         self.cards[card_type] = new_card
         return True
 
-    # want to add more optional args
     def get_card(self, card_type):
         return self.cards[card_type]
