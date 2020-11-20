@@ -3,6 +3,14 @@ class Merchant:
         self._name = name
         self._customers = {}
 
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, new_name):
+        self._name = new_name
+
     def add_customer(self, customer):
         self._customers[customer.name] = customer
 

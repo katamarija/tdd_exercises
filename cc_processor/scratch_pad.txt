@@ -1,0 +1,24 @@
+Actions a merchant can do:
+add customer
+charge customer
+refund customer
+
+Add customer
+your_merchant_name, customer_name
+
+Charge customer
+your_merchant_name, customer_name, card_info, amt
+create card if not exists, else charge with supplied card info
+
+Refund customer
+your_merchant_name, customer_name, card_info, amt
+error if no card info
+
+
+
+
+
+
+Gateway:
+add_card("Planet Express", "Philip J Fry", "Platinum", "$500")
+--> "ADD PHILIP J FRY PLATINUM $500" --> processor
