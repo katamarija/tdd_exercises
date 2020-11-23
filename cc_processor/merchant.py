@@ -11,6 +11,10 @@ class Merchant:
     def name(self, new_name):
         self._name = new_name
 
+    @property
+    def customers(self):
+        return self._customers
+
     def add_customer(self, customer):
         self._customers[customer.name] = customer
 
@@ -18,4 +22,6 @@ class Merchant:
         if customer_name not in self._customers:
             return None
         return self._customers[customer_name]
+
+
 
