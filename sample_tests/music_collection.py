@@ -1,32 +1,11 @@
-"""
-Music Collection
-song
-artist
-album
-playlist
-
-album has
-> 1 artist
-> multiple songs
-
-artist has
-> multiple albums
-
-songs has
-> 1 artist
-> 1 album
-
-playlists has
-> many songs
-
-"""
-
 class Song:
     def __init__(self, name, artist, album, track_number):
         self.name = name
         self.artist = artist
         self.album = album
         self.track_number = track_number
+        new_artist = Artist(artist)
+        new_album = Album(album, artist)
 
         artist.add_song(self)
         album.add_song_to_album(self)
@@ -65,3 +44,27 @@ class Playlist:
     def add_song(song):
         self.songs[] = song
         """
+
+"""
+Music Collection
+song
+artist
+album
+playlist
+
+album has
+> 1 artist
+> multiple songs
+
+artist has
+> multiple albums
+
+songs has
+> 1 artist
+> 1 album
+
+playlists has
+> many songs
+
+"""
+

@@ -14,7 +14,7 @@ def artist():
     artist_name = "BTS"
     return Artist(artist_name)
 
-def test_create_new_song_with_new_artist_and_album(song, artist):
+def test_create_new_song_with_new_artist_and_album(song)
     assert song.name == "Dynamite"
     assert song.artist == "BTS"
     assert song.album == "BE"
