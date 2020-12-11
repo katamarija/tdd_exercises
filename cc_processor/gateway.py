@@ -1,5 +1,6 @@
 from merchant import Merchant
 from customer import Customer
+from acquiring_bank import AcquiringBank
 
 class Gateway:
     def __init__(self):
@@ -27,8 +28,12 @@ class Gateway:
         customer = merchant.get_customer(customer_name)
         if customer.get_card(card_type) == None:
             customer.add_card(card_type, card_number, spending_limit)
-        customer.get_card(card_type).charge(charge_amount)
-        return True
+        card = customer.get_card(card_type)
+        bank = merchant.get_bank()
+        if bank.authorize_transaction(card, charge_amount):
+            card.charge(charge_amount)
+            return True
+        return False
 
     def merchant_refund_customer(self, merchant_name, customer_name, card_type, card_number, refund_amount, spending_limit):
         merchant = self.get_merchant(merchant_name)

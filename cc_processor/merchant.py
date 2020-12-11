@@ -1,7 +1,10 @@
+from acquiring_bank import AcquiringBank
+
 class Merchant:
     def __init__(self, name):
         self._name = name
         self._customers = {}
+        self._bank = AcquiringBank()
 
     @property
     def name(self):
@@ -23,5 +26,5 @@ class Merchant:
             return None
         return self._customers[customer_name]
 
-
-
+    def get_bank(self):
+        return self._bank
